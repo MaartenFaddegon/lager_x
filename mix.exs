@@ -4,7 +4,7 @@ defmodule Flager.Mixfile do
   def project do
     [
       app: :flager,
-      version: "0.14.1",
+      version: "0.15.0",
       elixir: "~> 1.5",
       deps: deps()
     ]
