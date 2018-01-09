@@ -97,7 +97,7 @@ defmodule Lager do
     :info
   """
   def compile_log_level() do
-    level = Application.get_env(:exlager, :level, :info)
+    level = Application.get_env(:flager, :level, :info)
     if is_integer(level) do
       level = num_to_level(level)
       IO.puts "Using integers is deprecated, please use :#{level} instead"
@@ -120,7 +120,7 @@ defmodule Lager do
     compile_log_level(num_to_level(level))
   end
   def compile_log_level(level) when is_atom(level) do
-    :ok = Application.put_env(:exlager, :level, level)
+    :ok = Application.put_env(:flager, :level, level)
     true
   end
   def compile_log_level(level) do
@@ -129,7 +129,7 @@ defmodule Lager do
   end
 
   def compile_truncation_size() do
-    Application.get_env(:exlager, :truncation_size, 4096)
+    Application.get_env(:flager, :truncation_size, 4096)
   end
 
   @doc """
@@ -140,7 +140,7 @@ defmodule Lager do
     true
   """
   def compile_truncation_size(size) do
-    :ok = Application.put_env(:exlager, :truncation_size, size)
+    :ok = Application.put_env(:flager, :truncation_size, size)
     true
   end
 end

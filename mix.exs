@@ -1,9 +1,9 @@
-defmodule Exlager.Mixfile do
+defmodule Flager.Mixfile do
   use Mix.Project
 
   def project do
     [
-      app: :exlager,
+      app: :flager,
       version: "0.14.1",
       elixir: "> 0.14.0",
       deps: deps()

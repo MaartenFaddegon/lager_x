@@ -1,4 +1,4 @@
-defmodule ExLager.Test do
+defmodule Flager.Test do
   use ExUnit.Case
   @top Path.expand "../..", __ENV__.file
 
@@ -104,7 +104,7 @@ defmodule ExLager.Test do
 
   defp compile(level) do
     :code.purge Lager
-    Application.put_env :exlager, :level, level
+    Application.put_env :flager, :level, level
     Kernel.ParallelCompiler.files_to_path ["#{@top}/lib/lager.ex"], "#{@top}/test"
     Code.ensure_compiled(Lager)
     quoted =
