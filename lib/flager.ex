@@ -1,4 +1,4 @@
-defmodule Lager do
+defmodule Flager do
   @default_sink :lager_event
 
   defdelegate trace_console(filter), to: :lager
@@ -93,7 +93,7 @@ defmodule Lager do
   @doc """
   This function is used to get compile time log level.
   Examples:
-    iex(4)> Lager.compile_log_level
+    iex(4)> Flager.compile_log_level
     :info
   """
   def compile_log_level() do
@@ -111,9 +111,9 @@ defmodule Lager do
   This function is used to set compile time log level.
   By default the log level is 'info'.
   Examples:
-    iex(4)> Lager.compile_log_level(6)
+    iex(4)> Flager.compile_log_level(6)
     true
-    iex(4)> Lager.compile_log_level(:info)
+    iex(4)> Flager.compile_log_level(:info)
     true
   """
   def compile_log_level(level) when level in -1..7 do
@@ -136,7 +136,7 @@ defmodule Lager do
   This function is used to set compile time truncation size.
   By default the truncation size is 4096.
   Examples:
-    iex(4)> Lager.compile_truncation_size(512)
+    iex(4)> Flager.compile_truncation_size(512)
     true
   """
   def compile_truncation_size(size) do

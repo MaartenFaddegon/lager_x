@@ -13,8 +13,8 @@ passed to lager for your convenience so you can easily find the source of a mess
 In this aspect using Flager is equal to using parse transform shipped with
 basho lager.
 
-Since Flager depends on macro implemented in Lager module you have to require it.
-Then you call one of logging methods on Lager module. There are seven logging
+Since Flager depends on macro implemented in Flager module you have to require it.
+Then you call one of logging methods on Flager module. There are seven logging
 methods in order of severity:
 
  - debug
@@ -31,30 +31,30 @@ Examples:
 
 ```elixir
 defmodule Test do
-  require Lager
+  require Flager
   def debug do
-    Lager.debug "Hi debug"
+    Flager.debug "Hi debug"
   end
   def info do
-    Lager.info "Hi error"
+    Flager.info "Hi error"
   end
   def notice do
-    Lager.notice "Hi notice"
+    Flager.notice "Hi notice"
   end
   def warning do
-    Lager.warning "Hi warning"
+    Flager.warning "Hi warning"
   end
   def error do
-    Lager.error "Hi error"
+    Flager.error "Hi error"
   end
   def critical do
-    Lager.critical "Hi critical"
+    Flager.critical "Hi critical"
   end
   def alert do
-    Lager.alert "Hi alert"
+    Flager.alert "Hi alert"
   end
   def emergency do
-    Lager.emergency "Hi emergency"
+    Flager.emergency "Hi emergency"
   end
   def test do
     debug
@@ -75,19 +75,19 @@ Test.test
 Configuration
 -------------
 It is possible to configure truncation size and compile time log level.
-Being a simple wrapper Flager doesn't attempt to configure underlying Lager.
+Being a simple wrapper Flager doesn't attempt to configure underlying Flager.
 You would need to configure it yourself [see](https://github.com/basho/lager) to ensure that:
 
   * lager_truncation_size >= compile_truncation_size
   * lager severity level >= compile_log_level
   * appropriate handlers are configured
 
-Configuration of Flager can be done by calling helper functions of Lager from your build system as follows:
+Configuration of Flager can be done by calling helper functions of Flager from your build system as follows:
 
 ```
-iex(1)> Lager.compile_log_level(:info)
+iex(1)> Flager.compile_log_level(:info)
 true
-iex(2)> Lager.compile_truncation_size(512)
+iex(2)> Flager.compile_truncation_size(512)
 true
 ```
 
@@ -112,11 +112,11 @@ If you are mix user you could specify level and truncation_size in *config/confi
 
 Multiple Sink Support
 ---------------------
-As of Lager 3.x, you can configure multiple sinks to provide different behavior
+As of Flager 3.x, you can configure multiple sinks to provide different behavior
 for different streams of logs.  To use a different sink, prepend the name to the
 logging calls above.  For example, to use the `magic_lager_event` sink, you can
 do the following:
 
 ```
-Lager.info :magic, "magic event"
+Flager.info :magic, "magic event"
 ```

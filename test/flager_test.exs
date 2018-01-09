@@ -2,6 +2,7 @@ defmodule Flager.Test do
   use ExUnit.Case
   @top Path.expand "../..", __ENV__.file
 
+  @tag :potato
   test "debug" do
     {enabled, disabled} = split(compile(:debug))
     assert disabled == []
@@ -86,39 +87,39 @@ defmodule Flager.Test do
   end
 
   test "get and set metadata" do
-    assert [] = Lager.md
+    assert [] = Flager.md
     new_md_list = [md1: "foo", md2: "bar"]
-    assert :ok = Lager.md(new_md_list)
-    assert ^new_md_list = Lager.md
+    assert :ok = Flager.md(new_md_list)
+    assert ^new_md_list = Flager.md
   end
 
   setup_all do
-    on_exit fn -> File.rm("#{@top}/test/#{beam(Lager)}") end
+    on_exit fn -> File.rm("#{@top}/test/#{beam(Flager)}") end
     :ok
   end
 
   defp compile_log_level(level) do
-    true = Lager.compile_log_level(level)
-    Lager.compile_log_level
+    true = Flager.compile_log_level(level)
+    Flager.compile_log_level
   end
 
   defp compile(level) do
-    :code.purge Lager
+    :code.purge Flager
     Application.put_env :flager, :level, level
-    Kernel.ParallelCompiler.files_to_path ["#{@top}/lib/lager.ex"], "#{@top}/test"
-    Code.ensure_compiled(Lager)
+    Kernel.ParallelCompiler.files_to_path ["#{@top}/lib/flager.ex"], "#{@top}/test"
+    Code.ensure_compiled(Flager)
     quoted =
       quote do
-        require Lager
+        require Flager
         [
-         debug: Lager.debug("Hi debug"),
-         info: Lager.info("Hi info"),
-         notice: Lager.notice("Hi notice"),
-         warning: Lager.warning("Hi warning"),
-         error: Lager.error("Hi error"),
-         critical: Lager.critical("Hi critical"),
-         alert: Lager.alert("Hi alert"),
-         emergency: Lager.emergency("Hi emergency"),
+         debug: Flager.debug("Hi debug"),
+         info: Flager.info("Hi info"),
+         notice: Flager.notice("Hi notice"),
+         warning: Flager.warning("Hi warning"),
+         error: Flager.error("Hi error"),
+         critical: Flager.critical("Hi critical"),
+         alert: Flager.alert("Hi alert"),
+         emergency: Flager.emergency("Hi emergency"),
         ]
       end
     {res, _} = Code.eval_quoted quoted
