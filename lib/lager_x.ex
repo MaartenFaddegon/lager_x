@@ -4,7 +4,20 @@ defmodule LagerX do
   defdelegate trace_console(filter), to: :lager
   defdelegate trace_file(file, filter, level), to: :lager
   defdelegate stop_trace(trace), to: :lager
-  defdelegate clear_all_traces(), to: :lager
+
+  @spec clear_all_traces() :: true
+  def clear_all_traces() do
+    # workaround for "no local return" warning:
+    # - `&:lager.clear_all_traces/0` ultimately calls `&:ets.insert/2`
+    # -`&:ets.insert/2` only returns `true`
+    # - the warning comes from some funky compiling metaprogramming in goldrush
+    # - could have used  `@dialyzer {:nowarn_function, clear_all_traces: 0}`
+    # - this approach felt like it had better semantics
+    :lager.clear_all_traces() |> throw()
+  catch
+    i -> i
+  end
+
   defdelegate status(), to: :lager
   defdelegate set_loglevel(handler, level), to: :lager
   defdelegate set_loglevel(handler, indent, level), to: :lager
