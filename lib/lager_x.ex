@@ -1,4 +1,4 @@
-defmodule Lager do
+defmodule LagerX do
   @default_sink :lager_event
 
   defdelegate trace_console(filter), to: :lager
@@ -93,11 +93,11 @@ defmodule Lager do
   @doc """
   This function is used to get compile time log level.
   Examples:
-    iex(4)> Lager.compile_log_level
+    iex(4)> LagerX.compile_log_level
     :info
   """
   def compile_log_level() do
-    level = Application.get_env(:exlager, :level, :info)
+    level = Application.get_env(:lager_x, :level, :info)
     if is_integer(level) do
       level = num_to_level(level)
       IO.puts "Using integers is deprecated, please use :#{level} instead"
@@ -111,16 +111,16 @@ defmodule Lager do
   This function is used to set compile time log level.
   By default the log level is 'info'.
   Examples:
-    iex(4)> Lager.compile_log_level(6)
+    iex(4)> LagerX.compile_log_level(6)
     true
-    iex(4)> Lager.compile_log_level(:info)
+    iex(4)> LagerX.compile_log_level(:info)
     true
   """
   def compile_log_level(level) when level in -1..7 do
     compile_log_level(num_to_level(level))
   end
   def compile_log_level(level) when is_atom(level) do
-    :ok = Application.put_env(:exlager, :level, level)
+    :ok = Application.put_env(:lager_x, :level, level)
     true
   end
   def compile_log_level(level) do
@@ -129,18 +129,18 @@ defmodule Lager do
   end
 
   def compile_truncation_size() do
-    Application.get_env(:exlager, :truncation_size, 4096)
+    Application.get_env(:lager_x, :truncation_size, 4096)
   end
 
   @doc """
   This function is used to set compile time truncation size.
   By default the truncation size is 4096.
   Examples:
-    iex(4)> Lager.compile_truncation_size(512)
+    iex(4)> LagerX.compile_truncation_size(512)
     true
   """
   def compile_truncation_size(size) do
-    :ok = Application.put_env(:exlager, :truncation_size, size)
+    :ok = Application.put_env(:lager_x, :truncation_size, size)
     true
   end
 end

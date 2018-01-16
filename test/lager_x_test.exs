@@ -1,4 +1,4 @@
-defmodule ExLager.Test do
+defmodule LagerX.Test do
   use ExUnit.Case
   @top Path.expand "../..", __ENV__.file
 
@@ -86,39 +86,39 @@ defmodule ExLager.Test do
   end
 
   test "get and set metadata" do
-    assert [] = Lager.md
+    assert [] = LagerX.md
     new_md_list = [md1: "foo", md2: "bar"]
-    assert :ok = Lager.md(new_md_list)
-    assert ^new_md_list = Lager.md
+    assert :ok = LagerX.md(new_md_list)
+    assert ^new_md_list = LagerX.md
   end
 
   setup_all do
-    on_exit fn -> File.rm("#{@top}/test/#{beam(Lager)}") end
+    on_exit fn -> File.rm("#{@top}/test/#{beam(LagerX)}") end
     :ok
   end
 
   defp compile_log_level(level) do
-    true = Lager.compile_log_level(level)
-    Lager.compile_log_level
+    true = LagerX.compile_log_level(level)
+    LagerX.compile_log_level
   end
 
   defp compile(level) do
-    :code.purge Lager
-    Application.put_env :exlager, :level, level
-    Kernel.ParallelCompiler.files_to_path ["#{@top}/lib/lager.ex"], "#{@top}/test"
-    Code.ensure_compiled(Lager)
+    :code.purge LagerX
+    Application.put_env :lager_x, :level, level
+    Kernel.ParallelCompiler.files_to_path ["#{@top}/lib/lager_x.ex"], "#{@top}/test"
+    Code.ensure_compiled(LagerX)
     quoted =
       quote do
-        require Lager
+        require LagerX
         [
-         debug: Lager.debug("Hi debug"),
-         info: Lager.info("Hi info"),
-         notice: Lager.notice("Hi notice"),
-         warning: Lager.warning("Hi warning"),
-         error: Lager.error("Hi error"),
-         critical: Lager.critical("Hi critical"),
-         alert: Lager.alert("Hi alert"),
-         emergency: Lager.emergency("Hi emergency"),
+         debug: LagerX.debug("Hi debug"),
+         info: LagerX.info("Hi info"),
+         notice: LagerX.notice("Hi notice"),
+         warning: LagerX.warning("Hi warning"),
+         error: LagerX.error("Hi error"),
+         critical: LagerX.critical("Hi critical"),
+         alert: LagerX.alert("Hi alert"),
+         emergency: LagerX.emergency("Hi emergency"),
         ]
       end
     {res, _} = Code.eval_quoted quoted
