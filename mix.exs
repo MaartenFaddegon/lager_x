@@ -22,8 +22,10 @@ defmodule LagerX.Mixfile do
 
   defp deps do
     [
+      # static analysis
+      {:dialyxir, ">= 0.0.0", only: [:dev], runtime: false},
+      # event logging
       {:lager, "~> 3.2.4"},
     ]
   end
 end
-
