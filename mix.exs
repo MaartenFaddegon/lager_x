@@ -1,16 +1,11 @@
 defmodule LagerX.Mixfile do
   use Mix.Project
 
-  def project do
-    [
-      app: :lager_x,
-      version: "0.14.1",
-      elixir: "> 0.14.0",
-      deps: deps()
-    ]
-  end
+  #######
+  # API #
+  #######
 
-  def application do
+  def application() do
     [
       applications: [
         :compiler,
@@ -20,14 +15,53 @@ defmodule LagerX.Mixfile do
     ]
   end
 
-  defp deps do
+  def project() do
+    [
+      app: :lager_x,
+      description: description(),
+      deps: deps(),
+      elixir: "> 0.14.0",
+      package: package(),
+      version: "0.14.1",
+    ]
+  end
+
+  ###########
+  # Private #
+  ###########
+
+  defp deps() do
     [
       # static analysis
       {:dialyxir, ">= 0.0.0", only: [:dev], runtime: false},
       # doc generator
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       # event logging
-      {:lager, "~> 3.2.4"},
+      {:lager, "~> 3.2"},
+    ]
+  end
+
+  defp description() do
+    "An Elixir wrapper for Lager, an Erlang logging library Edit Add topics"
+  end
+
+  defp licenses() do
+    ["Apache 2.0"]
+  end
+
+  defp links() do
+    %{"GitHub" => "https://github.com/amorphid/lager_x"}
+  end
+
+  defp maintainers() do
+    ["Michael Pope"]
+  end
+
+  defp package() do
+    [
+      licenses: licenses(),
+      links: links(),
+      maintainers: maintainers(),
     ]
   end
 end
