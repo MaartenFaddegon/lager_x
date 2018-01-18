@@ -24,6 +24,8 @@ defmodule LagerX.Mixfile do
     [
       # static analysis
       {:dialyxir, ">= 0.0.0", only: [:dev], runtime: false},
+      # doc generator
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       # event logging
       {:lager, "~> 3.2.4"},
     ]
