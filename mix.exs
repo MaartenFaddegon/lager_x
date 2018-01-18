@@ -20,7 +20,7 @@ defmodule LagerX.Mixfile do
       app: :lager_x,
       description: description(),
       deps: deps(),
-      elixir: "> 0.14.0",
+      elixir: "~> 1.5",
       package: package(),
       version: "0.14.1",
     ]
