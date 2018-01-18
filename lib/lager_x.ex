@@ -79,7 +79,7 @@ defmodule LagerX do
     module = caller.module || :unknown
     format =
       if is_binary(format) do
-        String.to_char_list(format)
+        String.to_charlist(format)
       else
         format
       end
