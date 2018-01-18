@@ -22,7 +22,7 @@ defmodule LagerX.Mixfile do
       deps: deps(),
       elixir: "~> 1.5",
       package: package(),
-      version: "0.14.1",
+      version: "0.14.2",
     ]
   end
 

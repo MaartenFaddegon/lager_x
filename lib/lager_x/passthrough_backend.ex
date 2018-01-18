@@ -4,6 +4,7 @@ defmodule :lager_x_passthrough_backend do
   defstruct [
     lager_util_is_loggable: &:lager_util.is_loggable/3,
     lager_util_level_to_num: &:lager_util.level_to_num/1,
+    log_level: nil,
     log_level_number: nil,
     passthrough_init_arg: nil,
     passthrough_module: nil,
@@ -160,11 +161,19 @@ defmodule :lager_x_passthrough_backend do
 
   @spec init(init_opts()) :: on_init()
   def init(opts) do
+    _ = Keyword.fetch!(opts,:log_level)
     _ = Keyword.fetch!(opts,:passthrough_init_arg)
     _ = Keyword.fetch!(opts,:passthrough_module)
 
     __MODULE__
     |> struct!(opts)
+    |> case do
+      state ->
+        struct!(
+          state,
+          log_level_number: state.lager_util_level_to_num.(IO.inspect(state.log_level)),
+        )
+    end
     |> case do
       state ->
         state.passthrough_module

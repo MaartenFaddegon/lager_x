@@ -69,7 +69,19 @@ defmodule LagerX.PassthroughBackendTest do
 
   def expected_state(%:lager_x_passthrough_backend{}=state,message) do
     passthrough_state2 = %{last_message: message}
-    struct!(state,passthrough_state: passthrough_state2)
+    state2 = struct!(
+      state,
+       passthrough_state: passthrough_state2
+    )
+
+    if state2.log_level_number do
+      state2
+    else
+      struct!(
+        state2,
+        log_level_number: state.lager_util_level_to_num.(state.log_level)
+      )
+    end
   end
 
   def mock_lager_event(event) do
@@ -246,21 +258,40 @@ defmodule LagerX.PassthroughBackendTest do
   end
 
   describe "&init/1" do
-    test "missing passthrough_module case" do
-      opts = [passthrough_init_arg: []]
+    test "missing log_level case",c do
+      opts = [
+        passthrough_init_arg: [],
+        passthrough_module: c.passthrough_module,
+      ]
       func = fn -> :lager_x_passthrough_backend.init(opts) end
-      assert_raise KeyError, func
+      assert_raise KeyError,~r/key :log_level not found in/,func
+    end
+
+    test "missing passthrough_module case",c do
+      opts = [
+        log_level: c.set_log_level,
+        passthrough_init_arg: [],
+      ]
+      func = fn -> :lager_x_passthrough_backend.init(opts) end
+      assert_raise KeyError,~r/key :passthrough_module not found in/,func
     end
 
     test "missing passthrough_init_arg case",c do
-      opts = [passthrough_module: c.passthrough_module]
+      opts = [
+        log_level: c.set_log_level,
+        passthrough_module: c.passthrough_module,
+      ]
       func = fn -> :lager_x_passthrough_backend.init(opts) end
-      assert_raise KeyError, func
+      # assert_raise KeyError, func
+      assert_raise KeyError,~r/key :passthrough_init_arg not found in/,func
     end
 
     test "standard path",c do
       arg = make_ref()
       opts = [
+        lager_util_is_loggable: fn (_,_,_) -> true end,
+        lager_util_level_to_num: fn (_) -> set_log_level_number() end,
+        log_level: c.set_log_level,
         passthrough_init_arg: arg,
         passthrough_module: c.passthrough_module,
       ]
@@ -279,6 +310,9 @@ defmodule LagerX.PassthroughBackendTest do
     test "hibernate path",c do
       arg = {:hibernate,make_ref()}
       opts = [
+        lager_util_is_loggable: fn (_,_,_) -> true end,
+        lager_util_level_to_num: fn (_) -> set_log_level_number() end,
+        log_level: c.set_log_level,
         passthrough_init_arg: arg,
         passthrough_module: c.passthrough_module,
       ]
@@ -297,6 +331,9 @@ defmodule LagerX.PassthroughBackendTest do
     test "error path",c do
       arg = {:error,make_ref()}
       opts = [
+        lager_util_is_loggable: fn (_,_,_) -> true end,
+        lager_util_level_to_num: fn (_) -> set_log_level_number() end,
+        log_level: c.set_log_level,
         passthrough_init_arg: arg,
         passthrough_module: c.passthrough_module,
       ]
