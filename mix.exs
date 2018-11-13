@@ -37,7 +37,7 @@ defmodule LagerX.Mixfile do
       # doc generator
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       # event logging
-      {:lager, "~> 3.2"},
+      {:lager, "~> 3.6"},
     ]
   end
 
